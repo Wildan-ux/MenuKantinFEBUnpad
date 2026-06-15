@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kantin FEB Unpad - Digital Directory</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        feb: {
+                            yellow: '#FACC15',
+                            hover: '#EAB308',
+                            light: '#FEF9C3'
+                        },
+                        surface: {
+                            DEFAULT: '#FFFFFF',
+                            50: '#F9FAFB',
+                            100: '#F3F4F6',
+                            200: '#E5E7EB'
+                        },
+                        content: {
+                            main: '#111827',
+                            sub: '#4B5563',
+                            muted: '#9CA3AF'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'card': '0 2px 10px -2px rgba(0, 0, 0, 0.03)',
+                        'floating': '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+                    },
+                    animation: {
+                        'bounce-slow': 'bounce 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .view-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .view-section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        #home-marquee-container, #gallery-carousel-container {
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+        .carousel-item, .gallery-item {
+            scroll-snap-align: center;
+        }
+    </style>
+</head>
+<body class="bg-surface-50 text-content-main font-sans antialiased selection:bg-feb-yellow selection:text-content-main flex flex-col min-h-screen relative">
+
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-surface-100 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-4">
+                    <button id="btn-back" class="hidden p-2 -ml-2 rounded-full hover:bg-surface-100 transition-colors text-content-sub hover:text-content-main" onclick="goBack()">
+                        <i class="ph ph-arrow-left text-xl"></i>
+                    </button>
+                    <div class="flex items-center gap-2 cursor-pointer" onclick="navigateTo('home')">
+                        <div class="w-9 h-9 bg-feb-yellow rounded-lg flex items-center justify-center overflow-hidden">
+                            <img src="logo-kantin.png" alt="Logo" class="w-full h-full object-cover placeholder-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <i class="ph-fill ph-storefront text-content-main text-lg hidden"></i>
+                        </div>
+                        <span class="font-bold text-lg tracking-tight">Kantin FEB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16 pb-12 flex-1">
+        
+        <section id="view-home" class="view-section active">
+            <div class="relative bg-surface overflow-hidden border-b border-surface-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6 z-10">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
+                                Temukan Menu Favoritmu <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">Lebih Cepat.</span>
+                            </h1>
+                            <p class="text-lg text-content-sub leading-relaxed max-w-lg">
+                                Eksplorasi seluruh pilihan menu dari tenant Kantin FEB Unpad tanpa harus berkeliling. Bandingkan pilihan, tentukan menu, dan hemat waktumu.
+                            </p>
+                            <div class="pt-4 flex flex-wrap gap-3">
+                                <button onclick="navigateTo('tenants')" class="bg-feb-yellow hover:bg-feb-hover text-content-main font-bold py-4 px-8 rounded-2xl shadow-soft hover:shadow-md transition-all flex items-center gap-2 active:scale-95">
+                                    Explore Our Tenant & Menus <i class="ph-bold ph-arrow-right"></i>
+                                </button>
+                                <button onclick="rollLuckyDice()" class="bg-surface border border-surface-200 hover:border-feb-yellow text-content-main font-bold py-4 px-6 rounded-2xl shadow-card hover:shadow-soft transition-all flex items-center gap-2 active:scale-95">
+                                    <i class="ph-fill ph-dice-five text-xl text-feb-hover"></i> Bingung Pilih? Kocok Dadu
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                            <img src="https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/723137458_17876817870610719_607190224501345500_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5OTc5NTQ2NDAxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDAzMi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Tsgv0PKdCqoQ7kNvwG4ZTT1&_nc_oc=AdqWViY5FsIJfWIIBqTTA-aPMS4bjE0DKis7Fj36mcru77OpIz2bMnO93rfQzp7Fww7JSrSnDIqV4P2Osy9wfRbb&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=5bHeosXJxMn6nF38S6PohQ&_nc_ss=7a22e&oh=00_Af_drI-GjVavWmbQqXLAMPLL493mW-ly_oTqOCij7W0iiA&oe=6A35D007" alt="Suasana Kantin FEB" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] bg-feb-light/40 rounded-full blur-3xl -z-0"></div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+                <div class="max-w-3xl mx-auto text-center space-y-6">
+                    <h2 class="text-3xl font-bold">Tentang Kantin FEB</h2>
+                    <p class="text-content-sub text-lg leading-relaxed">
+                        Kantin Fakultas Ekonomi dan Bisnis Universitas Padjadjaran hadir dengan beragam tenant pilihan. Menyediakan berbagai kategori makanan berat hingga minuman segar untuk mendukung aktivitas harian civitas akademika.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+                        <div class="p-6 bg-surface rounded-2xl border border-surface-200 shadow-card flex flex-col justify-center items-center">
+                            <div class="text-4xl font-extrabold text-content-main mb-1 tracking-tight">8</div>
+                            <div class="text-xs font-semibold uppercase text-content-sub tracking-wider">Pilihan Tenant</div>
+                        </div>
+                        <div class="p-6 bg-surface rounded-2xl border border-surface-200 shadow-card flex flex-col justify-center items-center">
+                            <div class="text-4xl font-extrabold text-content-main mb-1 tracking-tight">150+</div>
+                            <div class="text-xs font-semibold uppercase text-content-sub tracking-wider">Varian Menu</div>
+                        </div>
+                        <div class="p-6 bg-surface rounded-2xl border border-surface-200 shadow-card flex flex-col justify-center items-center">
+                            <div class="text-2xl font-bold text-content-main mb-1 tracking-tight">Eksklusif</div>
+                            <div class="text-[10px] font-semibold uppercase text-content-muted tracking-wider">Makanan & Snack</div>
+                        </div>
+                        <div class="p-6 bg-surface rounded-2xl border border-surface-200 shadow-card flex flex-col justify-center items-center">
+                            <div class="text-2xl font-bold text-content-main mb-1 tracking-tight">Segar</div>
+                            <div class="text-[10px] font-semibold uppercase text-content-muted tracking-wider">Aneka Minuman</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION SOROTAN MENU POPULER -->
+            <div class="bg-surface border-y border-surface-200 py-10 overflow-hidden relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
+                    <h3 class="text-lg font-bold text-content-main tracking-tight text-center md:text-left flex items-center justify-center md:justify-start gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span> Sorotan Varian Menu Populer
+                    </h3>
+                </div>
+                
+                <div class="w-full overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing flex px-[35%] sm:px-[42%]" id="home-marquee-container">
+                    <div class="flex gap-6 py-2" id="home-marquee-track">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION REVISI: FOTO MURNI TANPA KETERANGAN/LABEL APAPUN -->
+            <div class="bg-surface-50 border-b border-surface-200 py-12 overflow-hidden relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+                    <h3 class="text-lg font-bold text-content-main tracking-tight text-center md:text-left flex items-center justify-center md:justify-start gap-2">
+                        <i class="ph-bold ph-image text-feb-hover text-xl"></i> Galeri Kantin FEB
+                    </h3>
+                </div>
+                
+                <div class="w-full overflow-x-auto hide-scrollbar cursor-grab active:cursor-grabbing flex px-[25%] sm:px-[35%]" id="gallery-carousel-container">
+                    <div class="flex gap-6 py-2" id="gallery-carousel-track">
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/724230481_17876824437610719_3328249886734603364_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=110&ig_cache_key=MzkyMDE2MTg2NDg0NzAzNDg4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=L7aMYN8IRxUQ7kNvwEjahcp&_nc_oc=AdrK4ExTZOPz8d1tCYhJhwqeO6UeITDFx2nAKWJw883PyxvvLAAvcSESMjomxANKyzAizSZsLxDQh4S-ip6fSK_l&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af8S0FhPq-AF_DFQyevlfgH0XmiuNU-xe_-IQoTxYEX4bQ&oe=6A35E5F9" alt="Kantin FEB 1" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/723988204_17876824476610719_1625387746798791578_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=100&ig_cache_key=MzkyMDE2MTk3Nzg0OTk3MTIxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=icjplZ3-bP4Q7kNvwHjvPen&_nc_oc=AdodNI01528r92BlDVRh7clEgFLJXii7vQcAPHWfq0rbTByM-Q0h5eHm8FIb01GCkgo8K1GQoUXTosXL1xnqHHIj&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af_TzwacbFdAj5d7KOzfKq9ccEvnO9VgRyb0xxl-on-bHg&oe=6A35EEED" alt="Kantin FEB 2" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/724243007_17876824506610719_1127729102569627149_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDE2MjA2MzU1NjM4MTM2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vzk6MgRk9gAQ7kNvwEFyh3B&_nc_oc=AdoNyzQaym-Q7Jrb64Ohe_wkhXuUfdvhu_NIA4zm_Sthv_mxwXveo1vjPCCS6VdlGJV1Cy59W0uBaaSe6FL4hoMR&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af-bx5E6f0HJnFxM_XMNAQl-SBjVYPrzG34ZXAhVlNQrEw&oe=6A35DFF8" alt="Kantin FEB 3" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/722665753_17876824539610719_4051945704559866050_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=110&ig_cache_key=MzkyMDE2MjIyMTI5NTgyMDgzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=4fNPeRMy998Q7kNvwG1gkdh&_nc_oc=AdoiFIJrYojakvi_nfFO7UvodMrUaPhVKmeVb2TK84WnhJOIy1cbEJXCuUdmlZoafsqckBWJmjV388nraMxbR3aH&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af9mBumCKG-ituFegSvGX3TNUAPDLbQi_LE74QaBEHM3BQ&oe=6A35EA54" alt="Kantin FEB 4" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/723041183_17876824557610719_1253783179731702942_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=111&ig_cache_key=MzkyMDE2MjI3NTY3MDgzMTA5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=H4YoJ1KoHK0Q7kNvwFvLG7o&_nc_oc=AdrahN5usC6pwMNTGFACRrFC3iTKb8ER1e5LZcDWPtvtTQ-BtPaBJWAyZzKJ30OtyNC9CGX2txHQSyQOmzMCN6e1&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af_NRQuwJw36XYqQVEwPtlbIr7pFwJHhwvlLH_C8ppRSiw&oe=6A35E3A5" alt="Kantin FEB 5" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/722224555_17876824566610719_1000903033775336897_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=107&ig_cache_key=MzkyMDE2MjMzNTA3MDUzMDUzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CESK_owQLpAQ7kNvwGsis-C&_nc_oc=AdrumM0Is0QMDwWMvYscCzSCFCiqgb0EJNA0sPv4lFHwWg-6aedAVBUw5s_7DxZh24R38CM5NHEmIJTyfRIddcI5&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af9wBMxDLOf4ePbxZPgUMjMCFXUjd1-UK8tkBNP2wXo2iQ&oe=6A35FD77" alt="Kantin FEB 6" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/722098029_17876824623610719_8766923390429832166_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=102&ig_cache_key=MzkyMDE2Mjc1MTE3ODk0OTU1MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=C3ucDs3E_dEQ7kNvwF9MEdY&_nc_oc=AdrXthRi5-rjLOqXFPqUnnS2pZPdlMFkbm0HAjxCOIF7E9wOmg9tYUyLRHbaa2fjao3hQ47W2pGo2DnI1BLcw1jK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af8fRgrs1kVPXOT5RW5zlohKBtyB7AGvOgkNsqfbSQFC7A&oe=6A35FE26" alt="Kantin FEB 7" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                        <div class="gallery-item bg-white border border-surface-200 rounded-2xl overflow-hidden w-[280px] min-w-[280px] md:w-[320px] md:min-w-[320px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-70">
+                            <img src="https://instagram.fbdo9-1.fna.fbcdn.net/v/t51.82787-15/723154019_17876824638610719_9137472781149922587_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=104&ig_cache_key=MzkyMDE2MjgwMTg0NjA5NDYyMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gC7f7UIm6d4Q7kNvwGznbJm&_nc_oc=Adp3C_EN4CNFkY9yjV7sFAxhavjyLAsz8Lol4YVaaHt4qWlrQNoCN0B33_Ji_sjfaF8b9-0yVpfdb43syoxQ0Gvp&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=instagram.fbdo9-1.fna&_nc_gid=TcoAO5vKvJj02fMjmvqvUg&_nc_ss=7a22e&oh=00_Af9syTO-J046sY3qw2L1GIsBtz_O8YW5ylu_zGRlGQDdEw&oe=6A35EE0A" alt="Kantin FEB 8" class="w-full h-56 md:h-64 object-cover">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-tenants" class="view-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="mb-8 space-y-6">
+                    <div>
+                        <h2 class="text-3xl font-extrabold tracking-tight">Eksplorasi Kantin</h2>
+                        <p class="text-content-sub mt-2">Cari nama tenant, kategori masakan, atau menu spesifik menggunakan teks atau suara.</p>
+                    </div>
+                    
+                    <!-- REVISI: INPUT SEARCH + TOMBOL VOICE NOTE PENCARIAN -->
+                    <div class="relative max-w-xl flex gap-2 items-center">
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="ph ph-magnifying-glass text-content-muted text-xl"></i>
+                            </div>
+                            <input type="text" id="search-tenant" placeholder="Cari tenant, menu (ex: Nasi, Bebek, Bakmi, Es)..."
+                                class="block w-full pl-11 pr-4 py-4 bg-surface border border-surface-200 rounded-2xl text-content-main placeholder-content-muted focus:ring-2 focus:ring-feb-yellow focus:border-transparent transition-shadow outline-none shadow-sm"
+                                onkeyup="handleSearch()">
+                        </div>
+                        <button id="btn-voice-search" onclick="startVoiceSearch()" class="p-4 bg-surface border border-surface-200 hover:border-feb-yellow rounded-2xl text-content-sub hover:text-feb-hover transition-all shadow-sm active:scale-95 flex items-center justify-center flex-shrink-0 h-[58px] w-[58px]" title="Cari Pake Suara">
+                            <i id="mic-icon" class="ph-bold ph-microphone text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="tenant-section-wrapper" class="space-y-4 mb-10">
+                    <h3 id="tenant-results-title" class="text-xl font-bold tracking-tight text-content-main">Daftar Tenant</h3>
+                    <div id="tenant-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    </div>
+                </div>
+
+                <div id="menu-search-section-wrapper" class="space-y-4 hidden border-t border-surface-200 pt-8">
+                    <h3 class="text-xl font-bold tracking-tight text-content-main flex items-center gap-2">
+                        <i class="ph ph-bowl-food text-feb-hover"></i> Menu yang Cocok
+                    </h3>
+                    <div id="menu-search-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    </div>
+                </div>
+                
+                <div id="global-no-results" class="hidden text-center py-16 text-content-muted">
+                    <i class="ph ph-magnifying-glass-minus text-5xl mb-3 block text-content-muted"></i>
+                    <p class="text-lg font-medium">Pencarian tidak ditemukan</p>
+                    <p class="text-sm mt-1">Coba masukkan nama kuliner atau kedai lain.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-menu" class="view-section">
+            <div id="menu-header" class="bg-surface border-b border-surface-200 pb-6 pt-4">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+                <div class="flex gap-3 overflow-x-auto hide-scrollbar pb-2 mb-6 border-b border-surface-200" id="category-tabs">
+                    <button class="cat-btn active whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-content-main text-surface" onclick="filterMenu('all')">Semua Menu</button>
+                    <button class="cat-btn whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-surface border border-surface-200 text-content-sub hover:bg-surface-50" onclick="filterMenu('Makanan')">Makanan</button>
+                    <button class="cat-btn whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-surface border border-surface-200 text-content-sub hover:bg-surface-50" onclick="filterMenu('Minuman')">Minuman</button>
+                    <button class="cat-btn whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-surface border border-surface-200 text-content-sub hover:bg-surface-50" onclick="filterMenu('Snack')">Snack & Lainnya</button>
+                </div>
+
+                <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                </div>
+                
+                <div id="no-menu-msg" class="hidden text-center py-12 text-content-muted">
+                    <i class="ph ph-mask-sad text-4xl mb-2"></i>
+                    <p>Menu untuk kategori ini tidak ditemukan.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-detail" class="view-section">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="bg-surface rounded-3xl overflow-hidden shadow-soft border border-surface-200">
+                    
+                    <div class="p-6 sm:p-8">
+                        <div class="flex justify-between items-start gap-4 mb-6">
+                            <div>
+                                <span class="text-xs px-2.5 py-1 rounded-md bg-feb-light text-yellow-800 font-bold uppercase tracking-wider inline-block mb-3">Detail Informasi Menu</span>
+                                <h2 id="detail-name" class="text-2xl sm:text-3xl font-bold text-content-main mb-2">Nama Menu</h2>
+                                <p id="detail-desc" class="text-content-sub">Deskripsi singkat menu.</p>
+                            </div>
+                            <div id="detail-price" class="text-xl sm:text-2xl font-extrabold text-content-main whitespace-nowrap bg-surface-100 px-4 py-2 rounded-xl">
+                                0k
+                            </div>
+                        </div>
+
+                        <div class="bg-surface-50 rounded-2xl p-5 border border-surface-200 mb-6 flex items-center gap-4">
+                            <div class="w-12 h-12 bg-white rounded-xl border border-surface-200 shadow-sm flex items-center justify-center flex-shrink-0">
+                                <i class="ph-fill ph-storefront text-2xl text-content-main"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-content-muted uppercase tracking-wider mb-1">Tersedia di</p>
+                                <p id="detail-tenant-name" class="font-bold text-content-main">Nama Tenant</p>
+                                <p id="detail-tenant-loc" class="text-sm text-content-sub">Kantin Nomor X</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 flex flex-col gap-4">
+                            <div class="flex gap-4">
+                                <i class="ph-fill ph-info text-blue-500 text-2xl flex-shrink-0 mt-0.5"></i>
+                                <div>
+                                    <h4 class="font-bold text-blue-900 text-lg mb-2 flex items-center gap-1.5">
+                                        <i class="ph-bold ph-receipt"></i> Cara Memesan & Membayar:
+                                    </h4>
+                                    <ul class="text-sm text-blue-800 space-y-2 list-disc list-inside leading-relaxed">
+                                        <li>Website ini sepenuhnya berfungsi sebagai <span class="font-semibold">Katalog & Digital Directory</span> resmi.</li>
+                                        <li>Silakan menuju dan datangi gerai <span id="info-tenant-name" class="font-bold underline"></span> secara langsung di area Kantin FEB.</li>
+                                        <li>Sebutkan nama menu yang Anda pilih di atas kepada penjaga tenant.</li>
+                                        <li>Lakukan transaksi pembayaran langsung di kasir tenant sesuai dengan tarif tertera menggunakan uang tunai maupun QRIS yang disediakan oleh merchant terkait.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="pt-2 border-t border-blue-200/50 flex justify-end">
+                                <button onclick="showOrderThankYou()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-6 rounded-xl text-xs shadow-sm transition-colors flex items-center gap-1.5">
+                                    <i class="ph-bold ph-check"></i> OK, Saya Mengerti
+                                </button>
+                            </div>
+
+                            <div class="mt-4 pt-4 border-t border-blue-200/60">
+                                <p class="text-xs font-bold text-blue-900 uppercase tracking-wider mb-3 flex items-center gap-1">
+                                    <i class="ph-bold ph-map-pin"></i> Panduan Denah Lokasi Tenant (Lihat Kotak Kuning):
+                                </p>
+                                
+                                <div class="bg-white rounded-xl p-4 border border-blue-100 shadow-inner overflow-x-auto hide-scrollbar">
+                                    <div class="min-w-[640px] py-2">
+                                        <div class="grid grid-cols-8 gap-2 mb-4">
+                                            <div id="map-kantin-1" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 1</span>
+                                            </div>
+                                            <div id="map-kantin-2" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 2</span>
+                                            </div>
+                                            <div id="map-kantin-3" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 3</span>
+                                            </div>
+                                            <div id="map-kantin-4" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 4</span>
+                                            </div>
+                                            <div id="map-kantin-5" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 5</span>
+                                            </div>
+                                            <div id="map-kantin-6" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 6</span>
+                                            </div>
+                                            <div id="map-kantin-7" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 7</span>
+                                            </div>
+                                            <div id="map-kantin-8" class="border-2 border-black rounded-xl p-3 text-center transition-all duration-300">
+                                                <span class="font-extrabold text-sm block tracking-tight">Kantin 8</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-full border-b border-gray-400 my-2"></div>
+                                        <div class="text-center font-extrabold text-sm tracking-wide text-gray-800 uppercase mt-1">
+                                            Taman Satu Pohon
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col items-center group">
+        <span class="bg-content-main text-white text-[11px] font-bold px-2.5 py-1 rounded-lg mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none shadow-md whitespace-nowrap">
+            Gacha Kuliner Yuk! 🎲
+        </span>
+        <button id="floating-dice-btn" onclick="rollLuckyDice()" class="w-14 h-14 bg-feb-yellow hover:bg-feb-hover text-content-main rounded-full flex items-center justify-center shadow-floating hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-200 border-2 border-content-main animate-bounce-slow">
+            <i id="dice-icon" class="ph-fill ph-dice-five text-3xl"></i>
+        </button>
+    </div>
+
+    <!-- MODAL UCAPAN TERIMA KASIH -->
+    <div id="thankyou-modal" class="fixed inset-0 z-[120] hidden items-center justify-center bg-content-main/70 backdrop-blur-sm p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border-2 border-content-main p-6 space-y-6 text-center transform scale-100 transition-transform duration-300">
+            <!-- REVISI: LOGO TERIMA KASIH FORMAT FOTO/IMAGE -->
+            <div class="w-16 h-16 bg-yellow-50 rounded-2xl mx-auto flex items-center justify-center overflow-hidden border border-yellow-200 shadow-inner">
+                <img src="logo-thanks.png" alt="Thank You Logo" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <i class="ph ph-storefront text-feb-hover text-2xl hidden"></i>
+            </div>
+            <div class="space-y-2">
+                <h4 class="text-xl font-extrabold text-content-main">Terima Kasih!</h4>
+                <p class="text-sm text-content-sub leading-relaxed px-2">
+                    Selamat menikmati hidangan Anda di Kantin FEB Unpad. Semangat beraktivitas!
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="closeThankYouModal('menu')" class="bg-surface-100 hover:bg-surface-200 text-content-main font-bold py-3 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-1">
+                    <i class="ph-bold ph-arrow-left"></i> Back to Menu
+                </button>
+                <button onclick="closeThankYouModal('home')" class="bg-feb-yellow hover:bg-feb-hover text-content-main font-bold py-3 px-4 rounded-xl text-xs transition-colors shadow-sm flex items-center justify-center gap-1">
+                    Exit Page (Home) <i class="ph-bold ph-house-line"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="central-dice-overlay" class="fixed inset-0 z-[110] hidden items-center justify-center bg-content-main/40 backdrop-blur-xs transition-opacity duration-300">
+        <div id="central-dice-box" class="p-8 rounded-3xl bg-white shadow-2xl border-4 border-content-main flex flex-col items-center justify-center space-y-4">
+            <i id="central-dice-icon" class="ph-fill ph-dice-one text-[90px] text-feb-hover"></i>
+            <span class="font-extrabold text-lg text-content-main tracking-tight animate-pulse text-center block px-4">Mengocok Menu Spesial...</span>
+        </div>
+    </div>
+
+    <div id="dice-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-content-main/60 backdrop-blur-sm p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border-2 border-content-main transform scale-95 transition-transform duration-300 p-6 space-y-6 relative">
+            
+            <div class="text-center pt-2">
+                <h3 class="text-xl font-extrabold text-content-main">Rekomendasi Dadu!</h3>
+                <p class="text-xs text-content-sub mt-1">Dadu memilih menu ini untuk santapanmu hari ini</p>
+            </div>
+
+            <div class="bg-surface-50 border border-surface-200 rounded-2xl p-5 space-y-3">
+                <div class="flex justify-between items-start gap-3">
+                    <span id="modal-gacha-cat" class="text-[10px] px-2 py-0.5 rounded-md bg-content-main text-white font-bold uppercase tracking-wide">Kategori</span>
+                    <div id="modal-gacha-price" class="font-extrabold text-content-main text-base bg-feb-light px-2.5 py-0.5 rounded-lg border border-feb-yellow">Rp -</div>
+                </div>
+                <div>
+                    <h4 id="modal-gacha-menu-name" class="font-extrabold text-content-main text-lg leading-tight">Nama Makanan Spesial</h4>
+                    <p id="modal-gacha-menu-desc" class="text-xs text-content-sub line-clamp-2 mt-1">Deskripsi hidangan.</p>
+                </div>
+                <div class="pt-2 border-t border-surface-200 flex items-center gap-2 text-xs text-content-sub">
+                    <div class="w-6 h-6 bg-white rounded-md border flex items-center justify-center flex-shrink-0 text-feb-hover font-bold">
+                        <i class="ph-fill ph-storefront"></i>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-content-main" id="modal-gacha-tenant-name">Kedai Kantin</span>
+                        <span class="text-[11px] block" id="modal-gacha-tenant-num">(Kantin X)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="rollLuckyDice()" class="bg-surface-100 hover:bg-surface-200 text-content-main font-bold py-3 px-4 rounded-xl text-xs transition-colors flex items-center justify-center gap-1.5">
+                    <i class="ph-bold ph-arrows-clockwise"></i> Putar Lagi
+                </button>
+                <button id="modal-gacha-action-btn" class="bg-feb-yellow hover:bg-feb-hover text-content-main font-bold py-3 px-4 rounded-xl text-xs transition-colors shadow-sm flex items-center justify-center gap-1">
+                    Detail & Lokasi <i class="ph-bold ph-arrow-square-out"></i>
+                </button>
+            </div>
+
+            <button onclick="closeDiceModal()" class="absolute top-2 right-4 text-content-muted hover:text-content-main p-1 rounded-full text-xl transition-colors">
+                <i class="ph ph-x"></i>
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-surface border-t border-surface-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left md:flex md:justify-between md:items-center text-xs text-content-sub space-y-2 md:space-y-0">
+            <div class="font-medium leading-relaxed max-w-4xl">
+                &copy; 2026 Tugas Digital Entrepreneurship &mdash; Program Studi Akuntansi, Angkatan 2023, Fakultas Ekonomi dan Bisnis, Universitas Padjadjaran
+            </div>
+            <div class="text-content-muted font-semibold tracking-wide">
+                (Ariiq, Eriik, Farhan, Indra, Yoel)
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA STRUCTURE (REVISI SINKRONISASI TOTAL & DESKRIPSI NETRAL + NASI KEYWORD) ---
+        const db = [
+            {
+                id: 'k1',
+                name: 'Kedai Kang Ahmad',
+                number: 'Kantin 1',
+                category: 'Aneka Nasi, Dimsum & Snack',
+                desc: 'Menyediakan beragam paket olahan nasi, mi, dimsum, makanan ringan, dan varian es krim.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Bebek Goreng Presto', price: '30K', desc: 'Sajian daging bebek goreng. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Ayam Goreng Presto', price: '20K', desc: 'Sajian daging ayam goreng. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Ricebowl Chicken Karage', price: '15K', desc: 'Nasi dalam mangkuk dengan potongan ayam karage. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Ricebowl Ayam Suir Manis / Pedas', price: '15K', desc: 'Nasi dalam mangkuk dengan lauk ayam suwir pilihan rasa. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Ricebowl Telur', price: '10K', desc: 'Nasi dalam mangkuk dengan lauk telur goreng. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Ricebowl Karage Saos Special', price: '17K', desc: 'Nasi dalam mangkuk dengan ayam karage bersaus. Pilihan saus bervariasi. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Ricebowl Sambal Cumi', price: '20K', desc: 'Nasi dalam mangkuk dengan lauk tumis cumi sambal. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Beef Bulgogi', price: '20K', desc: 'Sajian potongan daging sapi bumbu bulgogi. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Beef Mentai', price: '22K', desc: 'Sajian potongan daging sapi dengan lapisan saus mentai. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Beef Patties', price: '20K', desc: 'Sajian olahan daging sapi giling panggang. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Ayam Panggang Kecap', price: '20K', desc: 'Sajian potongan daging ayam panggang bumbu kecap. Sudah termasuk nasi putih hangat.' },
+                    { cat: 'Makanan', name: 'Indomie Original', price: '7K', desc: 'Mi instan rebus atau goreng varian rasa original.' },
+                    { cat: 'Makanan', name: 'Indomie + Telur', price: '10K', desc: 'Mi instan rebus atau goreng lengkap dengan tambahan telur.' },
+                    { cat: 'Makanan', name: 'Indomie Geprek Karage', price: '15K', desc: 'Mi instan dengan tambahan ayam goreng karage dan sambal geprek.' },
+                    { cat: 'Makanan', name: 'Mie Nyemek', price: '18K', desc: 'Olahan mi instan yang dimasak dengan kuah kental gurih.' },
+                    { cat: 'Makanan', name: 'Dimsum Ayam (XL)', price: '15K', desc: 'Kukusan siomay olahan daging ayam porsi ukuran besar.' },
+                    { cat: 'Makanan', name: 'Dimsum Ayam Udang (XL)', price: '18K', desc: 'Kukusan siomay olahan campuran daging ayam dan udang ukuran besar.' },
+                    { cat: 'Makanan', name: 'Dimsum Mentai (XL)', price: '20K', desc: 'Dimsum besar dengan balutan saus mentai yang dibakar.' },
+                    { cat: 'Makanan', name: 'Dimsum (Umum)', price: '5K - 15K', desc: 'Pilihan varian dimsum kukus reguler sesuai ketersediaan.' },
+                    { cat: 'Makanan', name: 'Rice Bowl Dumpling', price: '15K', desc: 'Sajian makanan dalam mangkuk dengan lauk dumpling. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Rice Bowl Fishroll', price: '15K', desc: 'Sajian makanan dalam mangkuk dengan lauk fishroll. Sudah termasuk nasi putih.' },
+                    { cat: 'Minuman', name: 'Ultra Milk', price: '8K', desc: 'Produk susu UHT kemasan kotak.' },
+                    { cat: 'Minuman', name: 'Teh Kotak', price: '5K', desc: 'Minuman teh melati dalam kemasan kotak.' },
+                    { cat: 'Minuman', name: 'Pocari Sweat', price: '7K', desc: 'Minuman isotonik dalam kemasan botol.' },
+                    { cat: 'Minuman', name: 'Air Mineral', price: '4K', desc: 'Air minum mineral kemasan botol dingin atau biasa.' },
+                    { cat: 'Minuman', name: 'Teh Pucuk', price: '5K', desc: 'Minuman teh rasa melati dalam kemasan botol.' },
+                    { cat: 'Minuman', name: 'Yakult', price: '3K', desc: 'Minuman susu fermentasi prebiotik botol kecil.' },
+                    { cat: 'Minuman', name: 'Nü Tea', price: '7K', desc: 'Minuman teh kemasan botol rasa manis.' },
+                    { cat: 'Minuman', name: 'Nü Milk Tea', price: '9K', desc: 'Minuman teh susu dalam kemasan botol.' },
+                    { cat: 'Minuman', name: 'Cimory Milk', price: '8K', desc: 'Susu segar kemasan dari Cimory berbagai varian rasa.' },
+                    { cat: 'Minuman', name: 'Cimory Yogurt Botol', price: '9K', desc: 'Yogurt cair siap minum kemasan botol.' },
+                    { cat: 'Minuman', name: 'Cimory Yogurt Pouch', price: '11K', desc: 'Yogurt bertekstur kental dalam kemasan praktis pouch.' },
+                    { cat: 'Minuman', name: 'Buavita', price: '10K', desc: 'Minuman sari jus buah kemasan kotak.' },
+                    { cat: 'Minuman', name: 'You-C', price: '8K', desc: 'Minuman suplemen vitamin C rasa buah.' },
+                    { cat: 'Minuman', name: 'Oronamin C', price: '7K', desc: 'Minuman vitamin bersoda kemasan botol kaca.' },
+                    { cat: 'Minuman', name: 'Kopi Kenangan', price: '8K', desc: 'Produk kopi susu siap minum kemasan botol.' },
+                    { cat: 'Minuman', name: 'Sunpride (Juice/Minuman)', price: '12K', desc: 'Sari buah murni kemasan segar.' },
+                    { cat: 'Minuman', name: 'Kopi Seduh', price: '5K', desc: 'Kopi hitam atau kopi susu bubuk seduh panas.' },
+                    { cat: 'Snack', name: 'Dubai Chewy Cookie', price: '20K', desc: 'Kue kering panggang dengan tekstur empuk di dalam.' },
+                    { cat: 'Snack', name: 'Sosis Sonice', price: '2K', desc: 'Cemilan sosis siap makan.' },
+                    { cat: 'Snack', name: 'Jelly', price: '1K', desc: 'Manisan jelly kenyal kemasan.' },
+                    { cat: 'Snack', name: 'Sarigandum', price: '3K', desc: 'Biskuit gandum tipis coklat.' },
+                    { cat: 'Snack', name: 'Beng-beng', price: '3K', desc: 'Snack coklat wafer karamel renyah.' },
+                    { cat: 'Snack', name: 'Yupi Bolicious', price: '1.5K', desc: 'Permen kenyal rasa buah.' },
+                    { cat: 'Snack', name: 'Yupi Bonz', price: '1K', desc: 'Permen jelly kenyal aneka bentuk.' },
+                    { cat: 'Snack', name: 'Choki-choki', price: '2K', desc: 'Coklat pasta dalam kemasan stik.' },
+                    { cat: 'Snack', name: 'Superstar', price: '2K', desc: 'Wafer lapis coklat klasik.' },
+                    { cat: 'Snack', name: 'Chocolatos', price: '2K', desc: 'Wafer stik isi pasta coklat kental.' },
+                    { cat: 'Snack', name: 'Nextar', price: '3K', desc: 'Kue nastar lembut isi selai manis.' },
+                    { cat: 'Snack', name: 'Mie Kremes', price: '1K', desc: 'Snack mi kering renyah bumbu tabur.' },
+                    { cat: 'Snack', name: 'Bonita', price: '3K', desc: 'Cemilan biskuit snack kemasan.' },
+                    { cat: 'Snack', name: 'Chocopie', price: '3K', desc: 'Kue bolu lapis coklat isi marshmallow.' },
+                    { cat: 'Snack', name: 'Permen Kaki', price: '0.5K', desc: 'Permen lolipop bentuk kaki.' },
+                    { cat: 'Snack', name: 'Kue Sus', price: '7K', desc: 'Kue sus kering mini isi pasta coklat.' },
+                    { cat: 'Snack', name: 'Teng-teng', price: '4K', desc: 'Cemilan manis tradisional berbahan beras/kacang.' },
+                    { cat: 'Snack', name: 'Stik', price: '3K / 5K', desc: 'Cemilan kerupuk stik renyah rasa gurih.' },
+                    { cat: 'Snack', name: 'Stik Yahoo', price: '3K', desc: 'Snack stik gurih rasa pedas/asin.' },
+                    { cat: 'Snack', name: 'Pangsit', price: '4K', desc: 'Kerupuk kulit pangsit goreng renyah.' },
+                    { cat: 'Snack', name: 'Keripik Kaca', price: '3K', desc: 'Keripik singkong tipis transparan bumbu pedas.' },
+                    { cat: 'Snack', name: 'Macaroni Kecil', price: '4K', desc: 'Makaroni goreng renyah ukuran kecil.' },
+                    { cat: 'Snack', name: 'Macaroni Besar', price: '7K', desc: 'Makaroni goreng garing kemasan besar.' },
+                    { cat: 'Snack', name: 'Emping', price: '7K', desc: 'Kerupuk emping melinjo rasa asin gurih.' },
+                    { cat: 'Snack', name: 'Emping Jagung', price: '1.5K', desc: 'Keripik emping berbahan jagung manis garing.' },
+                    { cat: 'Snack', name: 'Keripik Ubi', price: '5K', desc: 'Potongan ubi manis goreng renyah.' },
+                    { cat: 'Snack', name: 'Keripik Singkong', price: '4K', desc: 'Keripik singkong asin gurih potongan tipis.' },
+                    { cat: 'Snack', name: 'Kerupuk Seblak', price: '3K', desc: 'Kerupuk seblak kering bantat aroma kencur pedas.' },
+                    { cat: 'Snack', name: 'Selondok', price: '5K', desc: 'Cemilan lanting/selondok khas berbahan singkong.' },
+                    { cat: 'Snack', name: 'Es Krim', price: '3K - 5K', desc: 'Es krim variasi stik atau cone.' },
+                    { cat: 'Snack', name: 'Es Krim Cup Oreo', price: '5K', desc: 'Es krim wadah cup dengan taburan remahan biskuit Oreo.' },
+                    { cat: 'Snack', name: 'Es Krim Ikan (Taiyaki)', price: '5K', desc: 'Es krim berlapis waffle renyah berbentuk ikan khas Jepang.' },
+                    { cat: 'Snack', name: 'Moci', price: '3K', desc: 'Kue moci kenyal isi pasta manis.' },
+                    { cat: 'Snack', name: 'Cheesecake (Es Krim)', price: '10K', desc: 'Es krim dengan cita rasa kue keju.' },
+                    { cat: 'Snack', name: 'Matcha (Es Krim)', price: '13K', desc: 'Es krim lembut rasa teh hijau jepang.' }
+                ]
+            },
+            {
+                id: 'k2',
+                name: 'Jajan Yuu',
+                number: 'Kantin 2',
+                category: 'Bakmi, Cuanki & Buah Segar',
+                desc: 'Menyediakan olahan bakmi, yamin, sup cuanki hangat, batagor, serta pilihan paket nasi ayam.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Bakmi Ayam Rica + Pisah Kuah', price: '17K', desc: 'Bakmi ayam rica dengan mangkuk kuah terpisah isi bakso, pangsit, dan tahu.' },
+                    { cat: 'Makanan', name: 'Bakmi Ayam Manis', price: '17K', desc: 'Sajian bakmi dengan taburan potongan ayam berbumbu manis.' },
+                    { cat: 'Makanan', name: 'Mie Ayam Biasa', price: '17K', desc: 'Mi dengan taburan ayam cincang bumbu asin gurih reguler.' },
+                    { cat: 'Makanan', name: 'Mie Ayam Rica', price: '17K', desc: 'Mi dengan taburan topping ayam bumbu rica pedas.' },
+                    { cat: 'Makanan', name: 'Mie Bakso', price: '17K', desc: 'Sajian mi kuah bening disajikan bersama butiran bakso sapi.' },
+                    { cat: 'Makanan', name: 'Mie Yamin Manis', price: '17K', desc: 'Mi kering yang diaduk rata dengan kecap manis dan bumbu.' },
+                    { cat: 'Makanan', name: 'Mie Yamin Asin', price: '17K', desc: 'Mi kering gurih tanpa kecap manis dengan taburan ayam.' },
+                    { cat: 'Makanan', name: 'Cuanki', price: '12K', desc: 'Sup cuanki hangat isi tahu kuah, siomay, dan baso.' },
+                    { cat: 'Makanan', name: 'Batagor', price: '12K', desc: 'Bakso tahu goreng potongan renyah disiram saus bumbu kacang.' },
+                    { cat: 'Makanan', name: 'Mie (Polos/Khas)', price: '12K', desc: 'Porsi mi tanpa topping tambahan.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Penyet', price: '15K', desc: 'Sajian ayam goreng penyet sambal. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Indomie + Telur', price: '10K', desc: 'Mi instan rebus/goreng dimasak bersama telur.' },
+                    { cat: 'Makanan', name: 'Dimsum Premium', price: '12K', desc: 'Olahan siomay kukus daging padat.' },
+                    { cat: 'Makanan', name: 'Paket Ayam Penyet + Es Teh', price: '18.5K', desc: 'Menu komplit nasi ayam penyet penyet lengkap dengan es teh manis.' },
+                    { cat: 'Minuman', name: 'Teh Kotak', price: '5K', desc: 'Minuman teh kotak kemasan.' },
+                    { cat: 'Minuman', name: 'Nipis Madu', price: '5K', desc: 'Minuman rasa jeruk nipis kemasan madu.' },
+                    { cat: 'Minuman', name: 'Teh Pucuk', price: '4.5K', desc: 'Minuman teh botol.' },
+                    { cat: 'Minuman', name: 'Golda Coffee', price: '4.5K', desc: 'Kopi susu instan kemasan botol.' },
+                    { cat: 'Minuman', name: 'Tora Café', price: '4.5K', desc: 'Minuman es kopi kemasan siap minum.' },
+                    { cat: 'Minuman', name: 'Floridina', price: '4K', desc: 'Minuman sari jeruk dengan bulir buah.' },
+                    { cat: 'Minuman', name: 'Milku', price: '4.5K', desc: 'Susu cair botolan berbagai rasa.' },
+                    { cat: 'Minuman', name: 'Yakult', price: '3K', desc: 'Minuman probiotik.' },
+                    { cat: 'Minuman', name: 'Le Minerale', price: '5K', desc: 'Air minum mineral botolan.' },
+                    { cat: 'Minuman', name: 'Aquaviva', price: '4K', desc: 'Air mineral kemasan.' },
+                    { cat: 'Minuman', name: 'Pocari Sweat', price: '8K', desc: 'Minuman isotonik kemasan.' },
+                    { cat: 'Minuman', name: 'Good Day', price: '7K', desc: 'Minuman kopi botol aneka rasa.' },
+                    { cat: 'Minuman', name: 'Minuman Instan Sachet', price: '5K', desc: 'Kopi atau es susu bubuk seduh saset.' },
+                    { cat: 'Snack', name: 'Buah Potong Bumbu Rujak', price: '17K', desc: 'Aneka buah segar potong disajikan bersama bumbu rujak kacang.' },
+                    { cat: 'Snack', name: 'Buah Potong Bumbu Tabur', price: '17K', desc: 'Aneka buah segar potong dengan bumbu kering tabur asin pedas.' }
+                ]
+            },
+            {
+                id: 'k3',
+                name: 'VIP SECTION',
+                number: 'Kantin 3',
+                category: 'Rice Bowl & Premium Tea',
+                desc: 'Menyediakan beragam olahan ayam katsu, ebi furai, nasi goreng, nasi mentega, serta puluhan varian es teh ocha premium.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Nasi Ayam Pok Pok', price: '18K', desc: 'Potongan ayam goreng tepung ukuran kecil. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Katsu', price: '18K', desc: 'Ayam goreng fillet lapis tepung roti. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Cordon Bleu', price: '22K', desc: 'Daging ayam gulung isi keju lapis tepung roti garing. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Katsu Curry', price: '20K', desc: 'Ayam katsu disiram kuah kental saus kari Jepang. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Ebi Furai', price: '20K', desc: 'Udang goreng tepung roti krispi. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Telor Ceplok/Dadar', price: '12K', desc: 'Lauk telur goreng pilihan cara masak. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Butter Rice', price: '13K', desc: 'Sajian porsi nasi gurih yang dimasak dengan mentega.' },
+                    { cat: 'Makanan', name: 'Butter Rice Sosis/Telor', price: '15K', desc: 'Sajian nasi mentega gurih lengkap dengan topping telur atau sosis.' },
+                    { cat: 'Makanan', name: 'Kwetiau Goreng', price: '16K', desc: 'Kwetiau tumis kecap manis lengkap bumbu telur dadar orek.' },
+                    { cat: 'Snack', name: 'Lumpia Basah', price: '10K', desc: 'Tumisan tauge, bengkuang, dan telur dibungkus kulit lumpia.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Apple', price: '10K', desc: 'Seduhan teh rasa buah apel segar.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Blackcurrant', price: '10K', desc: 'Seduhan teh rasa buah blackcurrant buah beri.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Black Tea Gula Batu', price: '10K', desc: 'Teh hitam pekat disajikan bersama manisnya gula batu asli.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Jasmine', price: '10K', desc: 'Teh wangi aroma melati tradisional.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Mango', price: '10K', desc: 'Minuman es teh rasa buah mangga manis.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Lychee', price: '10K', desc: 'Teh manis dingin dengan aroma rasa buah leci.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Lemon', price: '10K', desc: 'Es teh asam manis segar rasa buah lemon.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Lemon Honey', price: '10K', desc: 'Seduhan teh kombinasi lemon dan madu asli.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Peach', price: '10K', desc: 'Minuman es teh rasa buah persik aroma khas.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea Vanilla', price: '10K', desc: 'Es teh aroma manis esens vanilla.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Jasmine', price: '10K', desc: 'Teh hijau Jepang dingin aroma melati.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Lychee', price: '10K', desc: 'Teh hijau Jepang dingin rasa buah leci.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Lemon', price: '10K', desc: 'Teh hijau Jepang dingin rasa perasan jeruk lemon.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Strawberry', price: '10K', desc: 'Teh hijau Jepang dingin rasa buah stroberi.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Mango', price: '10K', desc: 'Teh hijau Jepang dingin rasa buah mangga.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Original', price: '10K', desc: 'Teh hijau Jepang ocha original dingin rasa tawar khas.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Jeruk Nipis Madu', price: '10K', desc: 'Teh hijau Jepang dingin paduan jeruk nipis madu.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Apple', price: '10K', desc: 'Teh hijau Jepang dingin rasa buah apel.' },
+                    { cat: 'Minuman', name: 'Es Teh Ocha Blackcurrant', price: '10K', desc: 'Teh hijau Jepang rasa beri hitam.' },
+                    { cat: 'Minuman', name: 'Green Apple', price: '10K', desc: 'Minuman sari buah apel hijau segar dingin.' },
+                    { cat: 'Minuman', name: 'King Mango', price: '10K', desc: 'Minuman rasa jus buah mangga manis.' },
+                    { cat: 'Minuman', name: 'Pink Berry', price: '10K', desc: 'Minuman dingin rasa campuran buah beri merah.' },
+                    { cat: 'Minuman', name: 'Fresh Lemonade', price: '10K', desc: 'Air perasan lemon segar dingin rasa asam manis.' },
+                    { cat: 'Minuman', name: 'Galaxy Lemonade', price: '10K', desc: 'Minuman lemon dingin tampilan gradasi warna.' },
+                    { cat: 'Minuman', name: 'Blue Ocean Lemonade', price: '10K', desc: 'Minuman lemon dingin berwarna biru laut segar.' }
+                ]
+            },
+            {
+                id: 'k4',
+                name: 'Ayam Penyet Keramat',
+                number: 'Kantin 4',
+                category: 'Ayam Penyet & Olahan Nasi',
+                desc: 'Menyediakan menu ayam penyet sambal, ayam bakar kecap, nasi goreng kuah, mi goreng, kwetiau, sup cuanki baso, dan cemilan garing.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Ayam Penyet', price: '20K', desc: 'Sajian potongan ayam goreng penyet sambal khas pedas. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Ayam Bakar', price: '22K', desc: 'Sajian potongan ayam bakar bumbu kecap meresap. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Goreng', price: '16K', desc: 'Sajian nasi goreng wajan bumbu gurih lengkap pelengkap telur campur.' },
+                    { cat: 'Makanan', name: 'Mie Kuah/Goreng', price: '16K', desc: 'Olahan mi masak dengan kuah gurih atau digoreng bumbu kecap.' },
+                    { cat: 'Makanan', name: 'Kwetiaw Kuah/Goreng', price: '16K', desc: 'Kwetiau kenyal dimasak kuah bening hangat atau digoreng kering.' },
+                    { cat: 'Makanan', name: 'Cuankie Baso', price: '16K', desc: 'Sup kuah gurih berisi paduan tahu kuah, siomay kering, baso sapi.' },
+                    { cat: 'Snack', name: 'Mozarella Stick', price: '15K', desc: 'Cemilan stik goreng tepung isi keju mozarella mulur.' },
+                    { cat: 'Snack', name: 'Banana Crispy', price: '12K', desc: 'Potongan pisang goreng tepung renyah bumbu garing.' },
+                    { cat: 'Minuman', name: 'Ice Milk Coffee', price: '15K', desc: 'Minuman es kopi susu dingin manis seduh.' },
+                    { cat: 'Minuman', name: 'Lemon Tea', price: '8K', desc: 'Es teh manis segar paduan rasa perasan lemon.' },
+                    { cat: 'Minuman', name: 'Thai Tea', price: '10K', desc: 'Seduhan teh susu khas Thailand warna oranye rasa manis.' },
+                    { cat: 'Minuman', name: 'Green Tea', price: '10K', desc: 'Seduhan es teh hijau susu manis aromatik.' },
+                    { cat: 'Minuman', name: 'Es Jeruk', price: '8K', desc: 'Air perasan jeruk manis segar ditambah es batu.' },
+                    { cat: 'Minuman', name: 'Teh Manis', price: '5K', desc: 'Es atau hot teh manis seduhan reguler.' }
+                ]
+            },
+            {
+                id: 'k5',
+                name: 'Fiafira Kitchen & Eko',
+                number: 'Kantin 5',
+                category: 'Nasi Bakar & Jajanan Pasar',
+                desc: 'Menyediakan nasi bakar pincuk daun pisang, spaghetti katsu, pempek kuah cuko, aneka gorengan, risoles, dan puding penutup.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Nasi Bakar Ayam Kemangi', price: '17K', desc: 'Sajian nasi gurih bakar bungkus daun isi suwiran daging ayam wangi kemangi.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Bakar Kecap', price: '17K', desc: 'Paket nasi lengkap lauk potongan ayam bakar bumbu kecap manis. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Bakar Cumi Asin', price: '18K', desc: 'Sajian nasi gurih bakar dalam daun pisang isi tumisan cumi asin pedas.' },
+                    { cat: 'Makanan', name: 'Nasi Bakar Rendang Daging Sapi', price: '20K', desc: 'Sajian nasi gurih bakar isi potongan daging sapi bumbu rendang padang.' },
+                    { cat: 'Makanan', name: 'Spaghetti Bolognese Katsu', price: '15K', desc: 'Pasta mie spaghetti siram saus bolognese lengkap topping potongan ayam katsu garing.' },
+                    { cat: 'Snack', name: 'Pempek Isi 3 (Kapal Selam, Lenjer, Adaan)', price: '15K', desc: 'Tiga jenis pempek goreng palembang lengkap siraman kuah cuko asam pedas manis.' },
+                    { cat: 'Snack', name: 'Risol Sayur', price: '5K', desc: 'Gorengan risoles renyah isi tumisan sayur wortel kentang.' },
+                    { cat: 'Snack', name: 'Risol Mayo', price: '5K', desc: 'Gorengan risoles garing isi potongan telur, daging asap, saus mayones.' },
+                    { cat: 'Snack', name: 'Risol Bihun', price: '3K', desc: 'Gorengan risoles isi mi bihun goreng bumbu merica.' },
+                    { cat: 'Snack', name: 'Aneka Moci', price: '5K', desc: 'Kue moci kenyal isi pasta kacang atau coklat isi manis.' },
+                    { cat: 'Snack', name: 'Aneka Bolu', price: '5K', desc: 'Potongan kue bolu panggang/kukus berbagai varian rasa.' },
+                    { cat: 'Snack', name: 'Aneka Donat', price: '5K', desc: 'Donat goreng empuk tabur gula halus atau coklat meses.' },
+                    { cat: 'Snack', name: 'Fudgy Brownies', price: '4K', desc: 'Potongan kue brownies coklat panggang tekstur padat.' },
+                    { cat: 'Snack', name: 'Aneka Puding', price: '5K', desc: 'Makanan penutup puding jelly manis cetak aneka rasa rasa.' },
+                    { cat: 'Snack', name: 'Jasuke', price: '5K', desc: 'Jagung manis pipil kukus campur siraman susu kental manis parutan keju.' },
+                    { cat: 'Snack', name: 'Pisang Cokelat', price: '2.5K', desc: 'Gorengan kulit lumpia isi potongan pisang lumeran pasta coklat.' },
+                    { cat: 'Snack', name: 'Aneka Pastry', price: '5K', desc: 'Kue panggang jenis adonan pastry berlapis garing gurih.' },
+                    { cat: 'Snack', name: 'Kacang dan cemilan kering', price: '5K', desc: 'Bungkus cemilan kacang tanah atau kripik kering asin.' },
+                    { cat: 'Snack', name: 'Gehu Isi Pedas', price: '5K', desc: 'Gorengan tahu isi tumisan tauge bumbu racikan sambal pedas.' },
+                    { cat: 'Snack', name: 'Gehu Isi Tidak Pedas', price: '4K', desc: 'Gorengan tahu isi tumisan tauge rasa gurih asin original.' },
+                    { cat: 'Snack', name: 'Cireng Isi sambal kacang', price: '3K', desc: 'Gorengan aci isi bumbu siram bumbu sambal kacang gurih.' },
+                    { cat: 'Snack', name: 'Salad Buah 250 mL', price: '10K', desc: 'Potongan buah segar saus mayo yogurt parutan keju wadah kecil.' },
+                    { cat: 'Snack', name: 'Salad Buah 500 mL', price: '20K', desc: 'Potongan buah segar saus mayo yogurt parutan keju wadah sedang.' },
+                    { cat: 'Minuman', name: 'Air Mineral', price: '5K', desc: 'Air minum mineral botol kemasan reguler.' }
+                ]
+            },
+            {
+                id: 'k6',
+                name: 'Mie Ayam Bakso LEAD',
+                number: 'Kantin 6',
+                category: 'Mie Ayam & Jus Buah',
+                desc: 'Menyediakan menu variasi mi ayam, mi bakso urat, sup bakso kuah, nasi, jus buah segar asli, dan aneka minuman seduh es sachet.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Mie Ayam Biasa', price: '12K', desc: 'Sajian mi rebus topping daging ayam kecap cincang sawi mangkuk reguler.' },
+                    { cat: 'Makanan', name: 'Mie Ayam Bakso Kecil', price: '7K', desc: 'Sajian mi ayam lengkap tambahan butiran bakso kecil halusan daging.' },
+                    { cat: 'Makanan', name: 'Mie Ayam Bakso Besar', price: '20K', desc: 'Sajian mi ayam dengan tambahan butir bakso sapi ukuran besar isi daging.' },
+                    { cat: 'Makanan', name: 'Mie Bakso', price: '16K', desc: 'Sajian porsi mi kuah bening disajikan lengkap butiran bakso sapi.' },
+                    { cat: 'Makanan', name: 'Bakso Kuah', price: '14K', desc: 'Sup mangkuk isi butiran baso tanpa mi bihun kuah kaldu hangat hangat.' },
+                    { cat: 'Makanan', name: 'Bakso Kecil', price: '10K', desc: 'Sup kuah kaldu isi butiran bakso sapi ukuran kecil reguler.' },
+                    { cat: 'Makanan', name: 'Bakso Kuah + Nasi', price: '18K', desc: 'Sup kuah butiran bakso sapi lengkap disajikan bersama porsi nasi. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Bakso Kecil (Menu Paket)', price: '14K', desc: 'Sajian porsi menu paket bakso kecil pelengkap tahu.' },
+                    { cat: 'Makanan', name: 'Bakso Besar', price: '6K', desc: 'Butiran bakso sapi ukuran besar per biji satuan.' },
+                    { cat: 'Makanan', name: 'Nasi', price: '5K', desc: 'Tambahan satu porsi nasi putih hangat.' },
+                    { cat: 'Minuman', name: 'Teh Manis', price: '5K', desc: 'Es teh manis atau teh manis hangat gelas.' },
+                    { cat: 'Minuman', name: 'Teh Tawar', price: '4K', desc: 'Air seduhan teh tawar tanpa gula dingin hangat.' },
+                    { cat: 'Minuman', name: 'Lemon Tea', price: '8K', desc: 'Minuman teh rasa jeruk lemon asam manis.' },
+                    { cat: 'Minuman', name: 'Thai Tea', price: '10K', desc: 'Seduhan teh susu khas Thailand rasa manis manis botol.' },
+                    { cat: 'Minuman', name: 'Green Tea', price: '12K', desc: 'Es seduhan teh hijau campur susu manis rasa khas.' },
+                    { cat: 'Minuman', name: 'Jus Mangga', price: '10K', desc: 'Blenderan daging buah mangga asli ditambah es gula cair.' },
+                    { cat: 'Minuman', name: 'Jus Alpukat', price: '10K', desc: 'Blenderan buah alpukat kental dengan tambahan susu coklat manis.' },
+                    { cat: 'Minuman', name: 'Jus Stroberi', price: '10K', desc: 'Blenderan buah stroberi segar rasa asam manis dingin.' },
+                    { cat: 'Minuman', name: 'Jus Naga', price: '10K', desc: 'Blenderan daging buah naga merah manis dingin segar.' },
+                    { cat: 'Minuman', name: 'Jus Jambu', price: '10K', desc: 'Blenderan buah jambu biji merah disaring bebas biji dingin.' },
+                    { cat: 'Minuman', name: 'Air Mineral', price: '4K', desc: 'Air minum mineral kemasan botol reguler.' },
+                    { cat: 'Minuman', name: 'Jeruk Peras', price: '8K', desc: 'Air perasan buah jeruk asli manis asam hangat es es.' },
+                    { cat: 'Minuman', name: 'Popice', price: '5K', desc: 'Minuman es blender susu bubuk sachet aneka varian rasa.' },
+                    { cat: 'Minuman', name: 'Cappuccino', price: '5K', desc: 'Kopi bubuk rasa cappuccino instan seduh gelas.' }
+                ]
+            },
+            {
+                id: 'k7',
+                name: 'Kantin Latifah',
+                number: 'Kantin 7',
+                category: 'Soto, Sop & Lauk Pauk',
+                desc: 'Menyediakan nasi soto ayam, soto bandung lobak, sop iga sapi, paket nasi lauk komplit gorengan lalap, wonton pedas, dan topokki.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Nasi Soto Ayam', price: '16K', desc: 'Soto ayam berkuah kuning bening segar. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Soto Bandung', price: '18K', desc: 'Soto daging sapi bening khas Bandung pelengkap lobak goreng kacang. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Sop Iga', price: '18K', desc: 'Sup kuah kaldu tulang iga sapi empuk kuah bening sayur. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Paket Ayam/Lele/Ikan Goreng', price: '18K', desc: 'Pilihan lauk goreng dengan nasi pilihan (putih/daun jeruk/cikur), tahu tempe lalapan sambal. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Aneka Macam Sate', price: '2.5K', desc: 'Sate tambahan pendamping soto sate usus/kulit/telur puyuh per tusuk.' },
+                    { cat: 'Makanan', name: 'Telor dadar / ceplok', price: '5K', desc: 'Lauk tambahan telur goreng dadar atau mata sapi ceplok.' },
+                    { cat: 'Makanan', name: 'Telor Pindang', price: '6K', desc: 'Telur rebus bumbu pindang kecap warna coklat bumbu meresap.' },
+                    { cat: 'Makanan', name: 'Tahu / tempe', price: '1.5K', desc: 'Tambahan lauk tahu goreng atau tempe goreng gurih asin.' },
+                    { cat: 'Makanan', name: 'Nasi Daun Jeruk / Nasi Tutug Oncom', price: '7K', desc: 'Porsi pilihan nasi aromatik daun jeruk atau campuran tutug oncom khas sunda.' },
+                    { cat: 'Minuman', name: 'Ice Chocolate/Manggo/Matcha/Avocado/Lychee Tea', price: '10K', desc: 'Pilihan es minuman rasa manis gelas dingin segar.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Lemon Tea', price: '7K', desc: 'Seduhan teh rasa jeruk lemon asam manis es atau hangat panas.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Sweet Tea', price: '5K', desc: 'Seduhan teh manis melati gelas reguler es hangat.' },
+                    { cat: 'Minuman', name: 'Ice / Hot Tea', price: '3K', desc: 'Air seduhan teh tawar gelas biasa biasa panas dingin.' },
+                    { cat: 'Minuman', name: 'Fruity Yoghurt', price: '5K', desc: 'Minuman yogurt cair rasa buah kemasan gelas.' },
+                    { cat: 'Snack', name: 'Wonton', price: '12K', desc: 'Sajian pangsit wonton kukus siram bumbu chili oil pedas pedas.' },
+                    { cat: 'Snack', name: 'Topokki', price: '12K', desc: 'Kue beras kenyal bumbu kuah pasta gochujang khas Korea.' },
+                    { cat: 'Snack', name: 'Aneka Gorengan (4 pcs)', price: '5K', desc: 'Paket isi empat biji gorengan campur bakwan/tempe/tahu garing garing.' }
+                ]
+            },
+            {
+                id: 'k8',
+                name: 'Corner Bites',
+                number: 'Kantin 8',
+                category: 'Fast Food, Pasta & Dessert',
+                desc: 'Menyediakan paket nasi uduk ceplok, gulai, ayam kremes, burger kebab fastfood, cireng, baso aci, mi chili oil, pasta, es krim bun donat manis.',
+                image: 'https://scontent-cgk2-1.cdninstagram.com/v/t51.82787-15/722995591_17876818161610719_1210523786070528735_n.jpg?stp=dst-jpg_e35_s1080x1080_tt6&_nc_cat=106&ig_cache_key=MzkyMDEzOTE5ODE5ODk3Mjc0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wimH6bWm_WwQ7kNvwHYF8sv&_nc_oc=Ado5L0C4ijcXXrlGoM6yTSKX-4BVCgiVwQazI5DYX1f63Et17trnxsCAx6-oZdmAJFjvfaHk_KBGmUHZ2w_LOmTK&_nc_ad=z-m&_nc_cid=1225&_nc_zt=23&_nc_ht=scontent-cgk2-1.cdninstagram.com&_nc_gid=17cHv_FqF5Pfta-G7fHLBQ&_nc_ss=7a22e&oh=00_Af8QPe34ewOPDM1AvfIrT8W4-g6-bn4gMRAGfTBYQOYiKQ&oe=6A35E703',
+                menus: [
+                    { cat: 'Makanan', name: 'Nasi Ceplok Lemak (Uduk)', price: '11K', desc: 'Sajian porsi nasi uduk gurih lengkap dengan lauk telur ceplok goreng. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Nasi Nugget', price: '11K', desc: 'Sajian nasi putih dengan lauk potongan nugget ayam goreng. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Nasi Gulai Pentung', price: '15K', desc: 'Sajian nasi dengan kuah gulai daging bagian paha pentung ayam. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Pecel Lele + Tempe', price: '13K', desc: 'Sajian lauk ikan lele goreng garing, tempe, lalap, sambal penyet. Sudah termasuk nasi putih.' },
+                    { cat: 'Makanan', name: 'Nasi Bakso Chilli Oil', price: '12K', desc: 'Sajian nasi lauk butiran bakso tumis bumbu pedas chili oil. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Suir Kremesan', price: '13K', desc: 'Sajian nasi lauk ayam suwir dilengkapi taburan bumbu kremes garing. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Nasi Pentung Kremes + Tempe', price: '15K', desc: 'Sajian nasi paha pentung ayam kremes disajikan bersama sepotong tempe. Sudah termasuk nasi.' },
+                    { cat: 'Makanan', name: 'Nasi Ayam Saus Bolognese / Carbonara', price: '16K', desc: 'Sajian nasi dengan siraman potongan ayam saus pasta pilihan barat. Sudah termasuk nasi.' },
+                    { cat: 'Minuman', name: 'Mojito (Cocopandan/Melon/Jeruk)', price: '7K', desc: 'Minuman sirup soda dingin rasa buah dicampur potongan lemon daun mint.' },
+                    { cat: 'Minuman', name: 'Milkshake (Greentea/Coklat/Strawberry)', price: '12K', desc: 'Minuman susu kocok blender es rasa manis kental kental.' },
+                    { cat: 'Minuman', name: 'Es Jelly Susu (Cocopandan/Melon/Jeruk)', price: '7K', desc: 'Minuman es susu manis berisi potongan dadu jelly kenyal kenyal.' },
+                    { cat: 'Minuman', name: 'Capcin (Cappucino Cincau)', price: '7K', desc: 'Kopi cappuccino es blender dengan isian serutan cincau hitam.' },
+                    { cat: 'Minuman', name: 'Kopi Seduh', price: '5K', desc: 'Kopi hitam manis instan sachet diseduh gelas hangat panas panas.' },
+                    { cat: 'Minuman', name: 'Es Teh Manis', price: '5K', desc: 'Seduhan es teh manis kemasan gelas reguler.' },
+                    { cat: 'Minuman', name: 'Fanta Float', price: '8K', desc: 'Minuman soda Fanta merah dingin lengkap topping es krim vanila atas atas.' },
+                    { cat: 'Minuman', name: 'Popice / Nurdin', price: '5K', desc: 'Es blender susu kemasan saset rasa buah.' },
+                    { cat: 'Minuman', name: 'Es Kosong', price: '4K', desc: 'Air es batu sirup tanpa tambahan rasa rasa pekat pekat.' },
+                    { cat: 'Minuman', name: 'Happy Soda', price: '7K', desc: 'Es soda gembira susu kental manis campuran sirup merah.' },
+                    { cat: 'Minuman', name: 'Es Cekek', price: '3K', desc: 'Minuman es sirup teh sachet plastik praktis.' },
+                    { cat: 'Minuman', name: 'Dancow Blend', price: '9K', desc: 'Es blender bubuk susu Dancow manis rasa kental.' },
+                    { cat: 'Snack', name: 'Baso Aci', price: '12K', desc: 'Sup kuah pedas gurih isi butiran bakso aci kenyal cuanki pilus.' },
+                    { cat: 'Snack', name: 'Mie Chili Oil', price: '12K', desc: 'Mi kering aduk bumbu pedas chili oil lengkap dua butir bakso sapi.' },
+                    { cat: 'Snack', name: 'Corner\'s Pasta Bolognese / Carbonara', price: '12K', desc: 'Porsi pasta spaghetti siram saus pilihan rasa bolognese daging carbonara susu.' },
+                    { cat: 'Snack', name: 'Cireng', price: '10K', desc: 'Gorengan aci cireng garing dicocol sambal rujak bumbu.' },
+                    { cat: 'Snack', name: 'Corner\'s Kebab', price: '11K', desc: 'Gulungan kulit tortilla isi daging kebab iris saus mayo salad sayur.' },
+                    { cat: 'Snack', name: 'Corner\'s Burger', price: '12K', desc: 'Roti burger isi lapisan daging patties panggang saus selada sayur.' },
+                    { cat: 'Snack', name: 'French Fries Nugget Set', price: '10K', desc: 'Piring cemilan kombinasi kentang goreng stik bersama nugget ayam.' },
+                    { cat: 'Snack', name: 'Basreng Chilli Oil', price: '8K', desc: 'Cemilan kerupuk bakso goreng potongan memanjang aduk bumbu cabai minyak kering.' },
+                    { cat: 'Snack', name: 'Ice Cream Bun', price: '12K', desc: 'Roti manis belah tengah isi scoop es krim lembut penutup manis.' },
+                    { cat: 'Snack', name: 'Corner\'s Ice Cream Cup', price: '9K', desc: 'Es krim vanila coklat wadah cup reguler siap saji.' },
+                    { cat: 'Snack', name: 'Pisang Keju Coklat', price: '11K', desc: 'Pisang goreng atau bakar taburan meses coklat parutan keju manis.' },
+                    { cat: 'Snack', name: 'Ice Cream Donut', price: '9K', desc: 'Kue donat goreng potong isi scoop es krim dingin manis manis.' },
+                    { cat: 'Snack', name: 'Es Kul Kul', price: '2K', desc: 'Potongan buah tusuk beku celup lapisan coklat garing garing.' },
+                    { cat: 'Snack', name: 'Kebab Pisang', price: '12K', desc: 'Kulit kebab tortilla lipat panggang isi potongan pisang pasta coklat coklat.' },
+                    { cat: 'Snack', name: 'Donat Salju 5 Pcs', price: '10K', desc: 'Paket isi lima buah donat goreng empuk tabur gula putih halus dingin.' }
+                ]
+            }
+        ];
+
+        let currentTenantId = null;
+        let activeMenuCategory = 'all';
+        
+        let carouselTimer = null;
+        let currentCarouselIndex = 0;
+        let totalCarouselItems = 0;
+
+        let galleryTimer = null;
+        let currentGalleryIndex = 0;
+        const totalGalleryItems = 8;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderDiscreteCarousel();
+            setupCarouselInteraction();
+            setupGalleryInteraction();
+        });
+
+        // --- SPEECH RECOGNITION SYSTEM (VOICE NOTE PENCARIAN) ---
+        function startVoiceSearch() {
+            const searchInput = document.getElementById('search-tenant');
+            const micIcon = document.getElementById('mic-icon');
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            
+            if (!SpeechRecognition) {
+                alert("Browser kamu belum mendukung fitur pencarian suara. Silakan ketik manual.");
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'id-ID'; // Set bahasa Indonesia
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            // Mengubah status visual tombol saat merekam suara
+            micIcon.className = "ph-fill ph-microphone text-xl text-red-500 animate-pulse";
+            searchInput.placeholder = "Mendengarkan suara Anda...";
+
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const voiceQuery = event.results[0][0].transcript;
+                searchInput.value = voiceQuery;
+                searchInput.placeholder = "Cari tenant, menu (ex: Nasi, Bebek, Bakmi, Es)...";
+                micIcon.className = "ph-bold ph-microphone text-xl text-content-sub";
+                
+                // Jalankan fungsi pencarian otomatis berdasarkan hasil konversi suara
+                renderSearchExplorer(voiceQuery);
+            };
+
+            recognition.onspeechend = () => {
+                recognition.stop();
+            };
+
+            recognition.onerror = (event) => {
+                micIcon.className = "ph-bold ph-microphone text-xl text-content-sub";
+                searchInput.placeholder = "Cari tenant, menu (ex: Nasi, Bebek, Bakmi, Es)...";
+                console.error("Voice recognition error: ", event.error);
+            };
+        }
+
+        // --- MARQUEE MENU CAROUSEL ---
+        function renderDiscreteCarousel() {
+            const track = document.getElementById('home-marquee-track');
+            track.innerHTML = '';
+            
+            let marqueeItems = [];
+            db.forEach(tenant => {
+                tenant.menus.forEach((menu, index) => {
+                    marqueeItems.push({
+                        tenantId: tenant.id,
+                        tenantName: tenant.name,
+                        menuIndex: index,
+                        data: menu
+                    });
+                });
+            });
+
+            for (let i = marqueeItems.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [marqueeItems[i], marqueeItems[j]] = [marqueeItems[j], marqueeItems[i]];
+            }
+
+            totalCarouselItems = marqueeItems.length;
+
+            marqueeItems.forEach((item, idx) => {
+                const node = document.createElement('div');
+                node.className = "carousel-item bg-white border border-surface-200 rounded-xl p-4 flex flex-col justify-between w-[240px] min-w-[240px] md:w-[260px] md:min-w-[260px] shadow-card flex-shrink-0 transition-all duration-300 transform scale-95 opacity-60 cursor-pointer";
+                node.setAttribute('data-index', idx);
+                
+                node.onclick = () => {
+                    currentTenantId = item.tenantId;
+                    navigateTo('detail', { tenantId: item.tenantId, menuIndex: item.menuIndex });
+                };
+
+                node.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[9px] font-bold uppercase tracking-wider text-feb-hover px-1.5 py-0.5 rounded bg-feb-light">${item.data.cat}</span>
+                            <span class="text-[10px] text-content-muted font-medium">Rp ${item.data.price}</span>
+                        </div>
+                        <h4 class="font-bold text-content-main text-xs line-clamp-1">${item.data.name}</h4>
+                        <p class="text-[10px] text-content-sub line-clamp-1 mt-0.5">${item.data.desc || '-'}</p>
+                    </div>
+                    <div class="text-[9px] font-semibold text-content-muted mt-2 border-t border-surface-50 pt-1 flex items-center gap-1">
+                        <i class="ph ph-storefront text-feb-hover"></i> ${item.tenantName}
+                    </div>
+                `;
+                track.appendChild(node);
+            });
+
+            updateCarouselFocus();
+            startCarouselAutoPlay();
+        }
+
+        function updateCarouselFocus() {
+            const items = document.querySelectorAll('.carousel-item');
+            items.forEach(item => {
+                const idx = parseInt(item.getAttribute('data-index'));
+                if (idx === currentCarouselIndex) {
+                    item.classList.remove('scale-95', 'opacity-60');
+                    item.classList.add('scale-105', 'opacity-100', 'border-feb-yellow', 'z-10');
+                } else {
+                    item.classList.remove('scale-105', 'opacity-100', 'border-feb-yellow', 'z-10');
+                    item.classList.add('scale-95', 'opacity-60');
+                }
+            });
+        }
+
+        function scrollCarouselToIndex(index) {
+            const container = document.getElementById('home-marquee-container');
+            const items = document.querySelectorAll('.carousel-item');
+            if (items.length === 0) return;
+
+            const targetItem = items[index];
+            const containerCenter = container.offsetWidth / 2;
+            const itemCenter = targetItem.offsetLeft + (targetItem.offsetWidth / 2);
+            
+            container.scrollTo({ left: itemCenter - containerCenter, behavior: 'smooth' });
+            currentCarouselIndex = index;
+            updateCarouselFocus();
+        }
+
+        function startCarouselAutoPlay() {
+            stopCarouselAutoPlay();
+            carouselTimer = setInterval(() => {
+                currentCarouselIndex = (currentCarouselIndex + 1) % totalCarouselItems;
+                scrollCarouselToIndex(currentCarouselIndex);
+            }, 3000);
+        }
+
+        function stopCarouselAutoPlay() {
+            if (carouselTimer) clearInterval(carouselTimer);
+        }
+
+        function setupCarouselInteraction() {
+            const container = document.getElementById('home-marquee-container');
+            let isUserScrolling = null;
+
+            container.addEventListener('scroll', () => {
+                stopCarouselAutoPlay();
+                clearTimeout(isUserScrolling);
+                isUserScrolling = setTimeout(() => {
+                    const containerCenter = container.scrollLeft + (container.offsetWidth / 2);
+                    const items = document.querySelectorAll('.carousel-item');
+                    let closestIndex = 0;
+                    let minDistance = Infinity;
+
+                    items.forEach((item, idx) => {
+                        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+                        const distance = Math.abs(containerCenter - itemCenter);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestIndex = idx;
+                        }
+                    });
+                    currentCarouselIndex = closestIndex;
+                    updateCarouselFocus();
+                    startCarouselAutoPlay();
+                }, 150);
+            });
+            container.addEventListener('mouseenter', stopCarouselAutoPlay);
+            container.addEventListener('mouseleave', startCarouselAutoPlay);
+        }
+
+        // --- GALLERY CAROUSEL SYSTEM ---
+        function updateGalleryFocus() {
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach((item, idx) => {
+                if (idx === currentGalleryIndex) {
+                    item.classList.remove('scale-95', 'opacity-70');
+                    item.classList.add('scale-105', 'opacity-100', 'ring-4', 'ring-feb-yellow/30', 'z-10');
+                } else {
+                    item.classList.remove('scale-105', 'opacity-100', 'ring-4', 'ring-feb-yellow/30', 'z-10');
+                    item.classList.add('scale-95', 'opacity-70');
+                }
+            });
+        }
+
+        function scrollGalleryToIndex(index) {
+            const container = document.getElementById('gallery-carousel-container');
+            const items = document.querySelectorAll('.gallery-item');
+            if (items.length === 0) return;
+
+            const targetItem = items[index];
+            const containerCenter = container.offsetWidth / 2;
+            const itemCenter = targetItem.offsetLeft + (targetItem.offsetWidth / 2);
+            
+            container.scrollTo({ left: itemCenter - containerCenter, behavior: 'smooth' });
+            currentGalleryIndex = index;
+            updateGalleryFocus();
+        }
+
+        function startGalleryAutoPlay() {
+            stopGalleryAutoPlay();
+            galleryTimer = setInterval(() => {
+                currentGalleryIndex = (currentGalleryIndex + 1) % totalGalleryItems;
+                scrollGalleryToIndex(currentGalleryIndex);
+            }, 3500);
+        }
+
+        function stopGalleryAutoPlay() {
+            if (galleryTimer) clearInterval(galleryTimer);
+        }
+
+        function setupGalleryInteraction() {
+            const container = document.getElementById('gallery-carousel-container');
+            let isGalleryScrolling = null;
+
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach((item, i) => item.setAttribute('data-gidx', i));
+
+            container.addEventListener('scroll', () => {
+                stopGalleryAutoPlay();
+                clearTimeout(isGalleryScrolling);
+                isGalleryScrolling = setTimeout(() => {
+                    const containerCenter = container.scrollLeft + (container.offsetWidth / 2);
+                    let closestIndex = 0;
+                    let minDistance = Infinity;
+
+                    items.forEach((item, idx) => {
+                        const itemCenter = item.offsetLeft + (item.offsetWidth / 2);
+                        const distance = Math.abs(containerCenter - itemCenter);
+                        if (distance < minDistance) {
+                            minDistance = distance;
+                            closestIndex = idx;
+                        }
+                    });
+                    currentGalleryIndex = closestIndex;
+                    updateGalleryFocus();
+                    startGalleryAutoPlay();
+                }, 150);
+            });
+
+            updateGalleryFocus();
+            startGalleryAutoPlay();
+            container.addEventListener('mouseenter', stopGalleryAutoPlay);
+            container.addEventListener('mouseleave', startGalleryAutoPlay);
+        }
+
+        // --- INTERACTIVE NAVIGASI & SEARCH VIEW ENGINE ---
+        function showOrderThankYou() {
+            const modal = document.getElementById('thankyou-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeThankYouModal(targetPage) {
+            const modal = document.getElementById('thankyou-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            
+            if (targetPage === 'home') {
+                navigateTo('home');
+            } else if (targetPage === 'menu') {
+                navigateTo('menu', currentTenantId);
+            }
+        }
+
+        function navigateTo(viewId, param = null) {
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            document.getElementById('view-' + viewId).classList.add('active');
+            
+            const backBtn = document.getElementById('btn-back');
+            if (viewId === 'home') {
+                backBtn.classList.add('hidden');
+                setTimeout(() => {
+                    scrollCarouselToIndex(currentCarouselIndex);
+                    scrollGalleryToIndex(currentGalleryIndex);
+                }, 100);
+            } else {
+                backBtn.classList.remove('hidden');
+            }
+
+            window.scrollTo(0, 0);
+
+            if (viewId === 'tenants') {
+                renderSearchExplorer('');
+                document.getElementById('search-tenant').value = '';
+            } else if (viewId === 'menu' && param) {
+                currentTenantId = param;
+                activeMenuCategory = 'all';
+                updateCategoryTabs();
+                renderMenuHeader(param);
+                renderMenus();
+            } else if (viewId === 'detail' && param) {
+                renderDetail(param.tenantId, param.menuIndex);
+            }
+        }
+
+        function goBack() {
+            if (document.getElementById('view-detail').classList.contains('active')) {
+                navigateTo('menu', currentTenantId);
+            } else if (document.getElementById('view-menu').classList.contains('active')) {
+                navigateTo('tenants');
+            } else {
+                navigateTo('home');
+            }
+        }
+
+        function renderSearchExplorer(query) {
+            const tenantGrid = document.getElementById('tenant-grid');
+            const menuSearchGrid = document.getElementById('menu-search-grid');
+            const tenantWrapper = document.getElementById('tenant-section-wrapper');
+            const menuWrapper = document.getElementById('menu-search-section-wrapper');
+            const noResults = document.getElementById('global-no-results');
+            
+            tenantGrid.innerHTML = '';
+            menuSearchGrid.innerHTML = '';
+            
+            const q = query.trim().toLowerCase();
+
+            const filteredTenants = db.filter(t =>
+                t.name.toLowerCase().includes(q) ||
+                t.category.toLowerCase().includes(q)
+            );
+
+            let matchedMenus = [];
+            if (q.length > 0) {
+                db.forEach(tenant => {
+                    tenant.menus.forEach((menu, index) => {
+                        if (menu.name.toLowerCase().includes(q) || (menu.desc && menu.desc.toLowerCase().includes(q))) {
+                            matchedMenus.push({
+                                tenantId: tenant.id,
+                                tenantName: tenant.name,
+                                tenantNumber: tenant.number,
+                                menuIndex: index,
+                                data: menu
+                            });
+                        }
+                    });
+                });
+            }
+
+            let totalFound = filteredTenants.length + matchedMenus.length;
+
+            if (totalFound === 0 && q.length > 0) {
+                tenantWrapper.classList.add('hidden');
+                menuWrapper.classList.add('hidden');
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            if (filteredTenants.length > 0) {
+                tenantWrapper.classList.remove('hidden');
+                document.getElementById('tenant-results-title').innerText = q.length > 0 ? "Tenant Yang Cocok" : "Daftar Tenant";
+                
+                filteredTenants.forEach(tenant => {
+                    const card = document.createElement('div');
+                    card.className = "bg-surface rounded-2xl border border-surface-200 overflow-hidden shadow-card hover:shadow-soft transition-all duration-300 group flex flex-col";
+                    card.innerHTML = `
+                        <div class="aspect-video overflow-hidden bg-surface-100 relative">
+                            <img src="${tenant.image}" alt="${tenant.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-3 right-3 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-content-main shadow-sm">
+                                ${tenant.number}
+                            </div>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="text-xs font-semibold text-feb-yellow uppercase tracking-wider mb-1">${tenant.category}</div>
+                            <h3 class="text-xl font-bold text-content-main mb-2 line-clamp-1">${tenant.name}</h3>
+                            <p class="text-sm text-content-sub mb-4 line-clamp-2 flex-1">${tenant.desc}</p>
+                            <button onclick="navigateTo('menu', '${tenant.id}')" class="w-full bg-surface-50 hover:bg-feb-light text-content-main border border-surface-200 hover:border-feb-yellow font-semibold py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2">
+                                Lihat Semua Menu <i class="ph-bold ph-caret-right"></i>
+                            </button>
+                        </div>
+                    `;
+                    tenantGrid.appendChild(card);
+                });
+            } else {
+                tenantWrapper.classList.add('hidden');
+            }
+
+            if (matchedMenus.length > 0) {
+                menuWrapper.classList.remove('hidden');
+                matchedMenus.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "bg-surface rounded-2xl border border-surface-200 p-5 flex flex-col justify-between hover:shadow-card border-l-4 border-l-feb-yellow transition-shadow cursor-pointer min-h-[150px]";
+                    card.onclick = () => {
+                        currentTenantId = item.tenantId;
+                        navigateTo('detail', { tenantId: item.tenantId, menuIndex: item.menuIndex });
+                    };
+                    card.innerHTML = `
+                        <div class="flex-1 flex flex-col">
+                            <div class="flex justify-between items-start gap-2 mb-1">
+                                <h4 class="font-bold text-content-main leading-tight text-base line-clamp-2">${item.data.name}</h4>
+                                <span class="text-[10px] px-2 py-0.5 rounded-md bg-surface-100 text-content-sub font-semibold whitespace-nowrap">${item.data.cat}</span>
+                            </div>
+                            <p class="text-xs text-content-sub line-clamp-1 mt-1">${item.data.desc || '-'}</p>
+                            <div class="text-[11px] font-medium text-feb-hover mt-2 flex items-center gap-1">
+                                <i class="ph ph-storefront"></i> ${item.tenantName} (${item.tenantNumber})
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mt-3 pt-2 border-t border-surface-100">
+                            <div class="font-extrabold text-content-main text-base">Rp ${item.data.price}</div>
+                            <span class="text-xs font-bold text-blue-600 flex items-center gap-1 hover:underline">
+                                Detail & Cara Pesan <i class="ph ph-arrow-up-right"></i>
+                            </span>
+                        </div>
+                    `;
+                    menuSearchGrid.appendChild(card);
+                });
+            } else {
+                menuWrapper.classList.add('hidden');
+            }
+        }
+
+        function handleSearch() {
+            const input = document.getElementById('search-tenant').value;
+            renderSearchExplorer(input);
+        }
+
+        function renderMenuHeader(tenantId) {
+            const tenant = db.find(t => t.id === tenantId);
+            if (!tenant) return;
+
+            const header = document.getElementById('menu-header');
+            header.innerHTML = `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden flex-shrink-0 shadow-sm">
+                        <img src="${tenant.image}" alt="${tenant.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-100 text-content-sub text-xs font-bold mb-2">
+                            <i class="ph-fill ph-storefront"></i> ${tenant.number}
+                        </div>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-content-main">${tenant.name}</h1>
+                        <p class="text-content-sub mt-1 max-w-2xl text-sm md:text-base">${tenant.desc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function filterMenu(category) {
+            activeMenuCategory = category;
+            updateCategoryTabs();
+            renderMenus();
+        }
+
+        function updateCategoryTabs() {
+            const tabs = document.querySelectorAll('#category-tabs .cat-btn');
+            tabs.forEach(tab => {
+                tab.className = "cat-btn whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-surface border border-surface-200 text-content-sub hover:bg-surface-50";
+                
+                const isAll = activeMenuCategory === 'all' && tab.innerText.includes('Semua');
+                const isMatch = tab.innerText.includes(activeMenuCategory) && activeMenuCategory !== 'all';
+                
+                if (isAll || isMatch) {
+                    tab.className = "cat-btn active whitespace-nowrap px-6 py-2.5 rounded-full text-sm font-semibold transition-colors bg-content-main text-surface border-none";
+                }
+            });
+        }
+
+        function renderMenus() {
+            const tenant = db.find(t => t.id === currentTenantId);
+            const grid = document.getElementById('menu-grid');
+            const noMsg = document.getElementById('no-menu-msg');
+            
+            grid.innerHTML = '';
+            
+            if (!tenant || !tenant.menus) return;
+
+            let displayedCount = 0;
+
+            tenant.menus.forEach((menu, index) => {
+                if (activeMenuCategory !== 'all' && menu.cat !== activeMenuCategory) {
+                    return;
+                }
+                
+                displayedCount++;
+
+                const card = document.createElement('div');
+                card.className = "bg-surface rounded-2xl border border-surface-200 p-5 flex flex-col justify-between hover:shadow-card transition-shadow cursor-pointer min-h-[140px]";
+                card.onclick = () => navigateTo('detail', { tenantId: tenant.id, menuIndex: index });
+                
+                card.innerHTML = `
+                    <div class="flex-1 flex flex-col">
+                        <div class="flex justify-between items-start gap-2 mb-1">
+                            <h4 class="font-bold text-content-main leading-tight text-base line-clamp-2">${menu.name}</h4>
+                            <span class="text-xs px-2 py-0.5 rounded-md bg-surface-100 text-content-sub font-medium">${menu.cat}</span>
+                        </div>
+                        <p class="text-xs text-content-sub line-clamp-2 mt-1">${menu.desc || '-'}</p>
+                    </div>
+                    <div class="flex items-center justify-between mt-4 pt-2 border-t border-surface-100">
+                        <div class="font-extrabold text-content-main text-lg">Rp ${menu.price}</div>
+                        <span class="text-xs font-bold text-blue-600 flex items-center gap-1 hover:underline">
+                            Detail & Cara Pesan <i class="ph ph-arrow-up-right"></i>
+                        </span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            if (displayedCount === 0) {
+                grid.classList.add('hidden');
+                noMsg.classList.remove('hidden');
+            } else {
+                grid.classList.remove('hidden');
+                noMsg.classList.add('hidden');
+            }
+        }
+
+        function renderDetail(tenantId, menuIndex) {
+            const tenant = db.find(t => t.id === tenantId);
+            if(!tenant) return;
+            const menu = tenant.menus[menuIndex];
+            if(!menu) return;
+
+            document.getElementById('detail-name').innerText = menu.name;
+            document.getElementById('detail-desc').innerText = menu.desc === '-' ? 'Sajian dari tenant terkait.' : menu.desc;
+            document.getElementById('detail-price').innerText = `Rp ${menu.price}`;
+            
+            document.getElementById('detail-tenant-name').innerText = tenant.name;
+            document.getElementById('detail-tenant-loc').innerText = tenant.number;
+            document.getElementById('info-tenant-name').innerText = tenant.name;
+
+            for (let i = 1; i <= 8; i++) {
+                const mapNode = document.getElementById(`map-kantin-${i}`);
+                if (mapNode) {
+                    mapNode.className = "border-2 border-black rounded-xl p-3 text-center transition-all duration-300 bg-white text-black shadow-sm";
+                }
+            }
+
+            const mapIdNumber = tenant.number.replace(/\D/g, '');
+            if (mapIdNumber) {
+                const activeMapNode = document.getElementById(`map-kantin-${mapIdNumber}`);
+                if (activeMapNode) {
+                    activeMapNode.className = "border-2 border-black rounded-xl p-3 text-center transition-all duration-300 bg-yellow-400 text-black font-black shadow-md scale-105 ring-4 ring-yellow-200/50";
+                }
+            }
+        }
+
+        function rollLuckyDice() {
+            const overlay = document.getElementById('central-dice-overlay');
+            const centralIcon = document.getElementById('central-dice-icon');
+            
+            closeDiceModal();
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+
+            const diceIcons = ['ph-dice-one', 'ph-dice-two', 'ph-dice-three', 'ph-dice-four', 'ph-dice-five', 'ph-dice-six'];
+            
+            let iconInterval = setInterval(() => {
+                const randomIcon = diceIcons[Math.floor(Math.random() * diceIcons.length)];
+                centralIcon.className = `ph-fill ${randomIcon} text-[90px] text-feb-hover`;
+            }, 75);
+
+            setTimeout(() => {
+                clearInterval(iconInterval);
+                overlay.classList.remove('flex');
+                overlay.classList.add('hidden');
+
+                let allFlatMenus = [];
+                db.forEach(tenant => {
+                    tenant.menus.forEach((menu, index) => {
+                        allFlatMenus.push({
+                            tenantId: tenant.id,
+                            tenantName: tenant.name,
+                            tenantNumber: tenant.number,
+                            menuIndex: index,
+                            menuData: menu
+                        });
+                    });
+                });
+
+                const luckyPick = allFlatMenus[Math.floor(Math.random() * allFlatMenus.length)];
+
+                document.getElementById('modal-gacha-cat').innerText = luckyPick.menuData.cat;
+                document.getElementById('modal-gacha-price').innerText = `Rp ${luckyPick.menuData.price}`;
+                document.getElementById('modal-gacha-menu-name').innerText = luckyPick.menuData.name;
+                document.getElementById('modal-gacha-menu-desc').innerText = luckyPick.menuData.desc === '-' ? 'Rekomendasi hidangan hari ini.' : luckyPick.menuData.desc;
+                document.getElementById('modal-gacha-tenant-name').innerText = luckyPick.tenantName;
+                document.getElementById('modal-gacha-tenant-num').innerText = `(${luckyPick.tenantNumber})`;
+
+                const actionBtn = document.getElementById('modal-gacha-action-btn');
+                actionBtn.onclick = () => {
+                    closeDiceModal();
+                    currentTenantId = luckyPick.tenantId;
+                    navigateTo('detail', { tenantId: luckyPick.tenantId, menuIndex: luckyPick.menuIndex });
+                };
+
+                openDiceModal();
+            }, 1200);
+        }
+
+        function openDiceModal() {
+            const modal = document.getElementById('dice-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('div').classList.remove('scale-95');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeDiceModal() {
+            const modal = document.getElementById('dice-modal');
+            if (modal.classList.contains('flex')) {
+                modal.querySelector('div').classList.remove('scale-100');
+                modal.querySelector('div').classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.remove('flex');
+                    modal.classList.add('hidden');
+                }, 150);
+            }
+        }
+    </script>
+</body>
+</html>
